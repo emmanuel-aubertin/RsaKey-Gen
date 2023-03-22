@@ -27,7 +27,7 @@ void appInfo::print_usage()
         std::cout << "Usage:" << appInfo::PROGNAME << "| [-h | --help] | [-v | --version]  "<< std::endl;
         std::cout << "\t\t-h  Help" << std::endl;
         std::cout << "\t\t-v  Version" << std::endl;
-        std::cout << "\t\t-s  Set the size of the RSA key (default value: 4096)" << std::endl;
+        std::cout << "\t\t-s  RSA key gen with bits size" << std::endl;
         std::cout << std::endl << "Example : ./" << appInfo::PROGNAME << " -s 1024" << std::endl;
 }
 
