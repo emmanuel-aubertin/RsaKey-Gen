@@ -288,6 +288,10 @@ mpz_class r(this->phi_n);
         v_=vs-q*v_;
 
     }
+    if(v < 0){
+        this->private_key = v + phi_n;
+        return;
+    }
     this->private_key = v;
 }
 
