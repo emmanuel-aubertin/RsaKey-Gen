@@ -177,9 +177,14 @@ void cli_engine() {
     printf(">");
     char cmd[256];
     while(fgets(cmd, sizeof(cmd), stdin)){
-        std::cout << cmd << std::endl;
-        if(cmd != "") {
-            cli_cmd_parseur(cmd);
+            int count_blank = 0;
+            for (int i=0; i<=strlen(cmd); i++)
+            {
+                if (isblank(cmd[i]))
+                    count_blank ++;
+            }
+        if(strlen(cmd) > 2 && count_blank < strlen(cmd)-1){
+            cli_cmd_parseur(cmd); 
         }
         printf(">");
     }
@@ -201,7 +206,7 @@ char ** line_to_argv(char* inputChar) {
 }
 
 void cli_cmd_parseur(char* cmd){
-    
+
     char** cmd_agrv ;
     cmd_agrv = (char**) malloc(256 * sizeof(cmd));
     cmd_agrv= line_to_argv(cmd);
@@ -221,6 +226,10 @@ void cli_cmd_parseur(char* cmd){
         return;
     }
 
+    if(strcmp(cmd_agrv[0],"help") == 0) {
+        cliUsage::print_help();
+        return;
+    }
     /**
      * @brief KEYGEN CMD
      */
@@ -236,6 +245,11 @@ void cli_cmd_parseur(char* cmd){
         {
             std::string currentArg = std::string(cmd_agrv[i]);
             // GENKEY WITH SIZE
+            if(currentArg == "-h" || currentArg == "--help")
+            {
+                cliUsage::print_keygen_usage();
+                return;
+            }
             if(currentArg == "-s" || currentArg == "--size")
             {
                key = keygen(atoi(cmd_agrv[++i]));
@@ -284,9 +298,10 @@ void cli_cmd_parseur(char* cmd){
             if(currentArg == "-m" || currentArg == "--message")
             {
                 std::string mStr;
-                while(cmd_agrv[++i]){
+                while(cmd_agrv[i]){
                     mStr += cmd_agrv[i];
                     mStr += " ";
+                    i++;
                 }
                 std::vector<mpz_class> acsii_m = cast_str_ascii(mStr);
                 #ifdef DEBUG    
@@ -338,5 +353,17 @@ void cli_cmd_parseur(char* cmd){
             }
         }
     }
+    std::cout << "Unknow command, please refer to usage bellow." << std::endl;
+    cliUsage::print_usage();
 
 }
+
+/*
+
+keygen -s 8
+
+crypt -m test oui
+
+decrypt -m test oui
+
+*/ 
