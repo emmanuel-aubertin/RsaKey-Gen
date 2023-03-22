@@ -17,14 +17,8 @@ void cli_cmd_parseur(char* cmd);
 // Global var key
 RsaKey key;
 
-#define DEBUG // DEBUG MOD
+//#define DEBUG // DEBUG MOD
 
-// GEN KEY with e and n, and decrypt a msg
-#define DEBUG_DECRYPT_WITH_E_N
-//Set big a e and n
-#define DEBUG_DECRYPT_WITH_BIG_E_N
-
-//#define DEBUG_KEY_GEN_BITS // q1
 int main(int argc, char **argv)
 {
     #ifdef DEBUG
@@ -132,36 +126,6 @@ RsaKey keygen(unsigned int keySize) {
 
 
 RsaKey keygen_from_pub_n(mpz_class public_key, mpz_class n){
-         #ifdef DEBUGwc
-            std::vector<int> m_int = {671828605, 407505023, 288441355, 679172842, 180261802};
-            std::vector<mpz_class> m;
-            #ifdef DEBUG
-                std::cout << "m.reserve(m_int.size());" << std::endl;
-            #endif
-            m.reserve(m_int.size());
-            #ifdef DEBUG
-                std::cout << "asign new value" << std::endl;
-            #endif
-            for (const auto& x : m_int) {
-                m.emplace_back(x);
-            }
-        
-            std::vector<int> m_int = {9197, 6284, 12836, 8709, 4584, 10239, 11553, 4584, 7008, 12523, 9862, 356, 5356, 1159, 10280, 12523, 7506, 6311};
-            std::vector<mpz_class> m;
-            #ifdef DEBUG
-                std::cout << "m.reserve(m_int.size());" << std::endl;
-            #endif
-            m.reserve(m_int.size());
-            #ifdef DEBUG
-                std::cout << "asign new value" << std::endl;
-            #endif
-            for (const auto& x : m_int) {
-                m.emplace_back(x);
-            }
-            mpz_class e(12413);
-            mpz_class n(13289);
-        #endif
-
         RsaKey myKey = RsaKey(public_key, n);
         myKey.print_key(); 
         
@@ -175,7 +139,7 @@ RsaKey keygen_from_pub_n(mpz_class public_key, mpz_class n){
 
 void cli_engine() {
     printf(">");
-    char cmd[256];
+    char cmd[4096];
     while(fgets(cmd, sizeof(cmd), stdin)){
             int count_blank = 0;
             for (int i=0; i<=strlen(cmd); i++)
@@ -315,10 +279,11 @@ void cli_cmd_parseur(char* cmd){
                         std::cout << x << " ";
                     }std::cout << std::endl;
                 #endif
-                i++;
-               continue;
+               return;
             }
+            std::cout << "Usage : crypt -m My message" << std::endl;
         }
+        return;
     }
 
     /**
@@ -348,10 +313,11 @@ void cli_cmd_parseur(char* cmd){
                         std::cout << static_cast<char>(x.get_ui());
                     }std::cout << std::endl;
                 #endif
-                i++;
-               continue;
+                return;
             }
+            std::cout << "Usage : decrypt -m 3465 3567 9854 7636" << std::endl;
         }
+        return;
     }
     std::cout << "Unknow command, please refer to usage bellow." << std::endl;
     cliUsage::print_usage();
