@@ -233,7 +233,6 @@ void cli_cmd_parseur(char* cmd){
                 continue;
             }
         }
-        std::cout << "Out of while" << std::endl;
         if(public_key != 0 || n != 0) {
             if(n == 0) {
                 std::cout << "MISSING -n, see usage :" << std::endl;
@@ -274,11 +273,9 @@ void cli_cmd_parseur(char* cmd){
                     }std::cout << std::endl;
                 #endif
                 std::vector<mpz_class> c = key.crypt(acsii_m);
-                #ifdef DEBUG    
-                    for(mpz_class x : c){
-                        std::cout << x << " ";
-                    }std::cout << std::endl;
-                #endif
+                for(mpz_class x : c){
+                    std::cout << x << " ";
+                }std::cout << std::endl;
                return;
             }
             std::cout << "Usage : crypt -m My message" << std::endl;
@@ -308,11 +305,9 @@ void cli_cmd_parseur(char* cmd){
                     }std::cout << std::endl;
                 #endif
                 std::vector<mpz_class> c = key.decrypt(acsii_c);
-                #ifdef DEBUG    
-                    for(mpz_class x : c){
-                        std::cout << static_cast<char>(x.get_ui());
-                    }std::cout << std::endl;
-                #endif
+                for(mpz_class x : c){
+                    std::cout << static_cast<char>(x.get_ui());
+                }std::cout << std::endl;
                 return;
             }
             std::cout << "Usage : decrypt -m 3465 3567 9854 7636" << std::endl;
