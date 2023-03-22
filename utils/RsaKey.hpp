@@ -25,11 +25,13 @@ class RsaKey
         mpz_class montgomery_multiply(mpz_class a, mpz_class b, mpz_class x, mpz_class inv_r);
         void genPriv();
     public:
+        RsaKey();
         RsaKey(unsigned int);
         RsaKey(mpz_class, mpz_class);
         void print_key();
         mpz_class crypt(mpz_class);
         mpz_class decrypt(mpz_class);
         bool isValidKey();
+        std::vector<mpz_class> crypt(std::vector<mpz_class> c);
         std::vector<mpz_class> decrypt(std::vector<mpz_class>);
 };

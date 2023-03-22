@@ -9,6 +9,9 @@
 #define DEBUG
 
 
+
+RsaKey::RsaKey(){}
+
 /**
  * @brief Construct a new Rsa Key:: Rsa Key object from public_key and n
  * 
@@ -192,6 +195,29 @@ mpz_class RsaKey::crypt(mpz_class m){
 }
 
 /**
+ * @brief Crypt a message with multiple value.
+ * If the vector returned is empty, may come if your private_key or public_key or n is null.
+ * 
+ * @param c Vector of the crypted message
+ * @return std::vector<mpz_class> 
+ * 
+ * @author Aubertin Emmanuel (aka aTHO_)
+ */
+std::vector<mpz_class> RsaKey::crypt(std::vector<mpz_class> c){
+    if(public_key == NULL || n == NULL){
+        std::cout << "Missing value in your key : public_key or n" << std::endl;
+        return std::vector<mpz_class>();
+    }
+    std::vector<mpz_class> ouputM;
+    ouputM.reserve(c.size());
+    for(const auto& x : c) {
+        ouputM.emplace_back(crypt(x));
+    }
+    return ouputM;
+}
+
+
+/**
  * @brief Decrypt a value c.
  * If the returned value is -1, may come if your private_key or n is null.
  * 
@@ -279,8 +305,10 @@ bool RsaKey::isValidKey(){
     mpz_class m = 9197;
     mpz_class c_test = crypt(m);
     mpz_class m_decrypt = decrypt(c_test);
-    std::cout << m << " => " << c_test << std::endl;
-    std::cout << c_test << " => " << m << std::endl;
+    #ifdef DEBUG
+        std::cout << m << " => " << c_test << std::endl;
+        std::cout << c_test << " => " << m << std::endl;
+    #endif
     return m_decrypt == m;
 }
 
@@ -291,7 +319,7 @@ bool RsaKey::isValidKey(){
  */
 void RsaKey::print_key(){
     std::cout << "##############################################" << std::endl;
-    std::cout << "| Key lenght : " << this->bits_Key_size << std::endl;
+    std::cout << "| Key length : " << this->bits_Key_size << std::endl;
     std::cout << "|----------------------------------------------" << std::endl;
     std::cout << "| public key\t==> " << this->public_key << std::endl;
     std::cout << "| private key\t==> " << this->private_key << std::endl;
