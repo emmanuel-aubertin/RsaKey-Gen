@@ -22,7 +22,8 @@ class RsaKey
         mpz_class fast_mod(mpz_class, mpz_class);
         int is_prime(mpz_class);
         void genPriv();
-        mpz_class gen_block_size();
+        void gen_block_size();
+        std::vector<mpz_class> str_to_ascii(std::string inStr);
     public:
         RsaKey();
         RsaKey(unsigned int);

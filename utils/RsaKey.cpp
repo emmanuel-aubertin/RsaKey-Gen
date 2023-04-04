@@ -6,7 +6,7 @@
 #include <ctime>
 #include <vector>
 
-#define DEBUG
+//#define DEBUG
 
 
 
@@ -78,14 +78,33 @@ int RsaKey::is_prime(mpz_class n) {
 }
 
 
-mpz_class RsaKey::gen_block_size(){
+void RsaKey::gen_block_size(){
     mpz_class M(128);
-
+    block_size = 1;
     while(M < n){
         M *= M;
         block_size++;
     }
-    block_size--;
+}
+
+
+std::vector<mpz_class> RsaKey::str_to_ascii(std::string inStr)
+{
+    std::vector<mpz_class> output;
+    mpz_class block_number(inStr.length()/block_size);
+    mpz_class r(0);
+    mpz_class ascii_size(128);
+    for(mpz_class i = 0; i < block_number; i++){
+        mpz_class temp(0);
+        for(int j=0; j < block_size; j++)
+        {
+            mpz_class temp_pow(block_size-j);
+            mpz_pow_ui (r.get_mpz_t(), ascii_size.get_mpz_t(), temp_pow.get_ui());
+            temp += ((mpz_class)((int)  inStr[j]))*r;
+        }
+        output.push_back(temp);
+    }
+    return output;
 }
 
 /**
