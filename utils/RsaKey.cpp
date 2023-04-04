@@ -39,8 +39,9 @@ RsaKey::RsaKey(mpz_class public_key, mpz_class n)
     //phi_n
     this->phi_n = (this->p - 1) * (this->q - 1);
     genPriv();
-
+    gen_block_size();
 }
+
 
 /**
  * @brief  Construct a new Rsa Key:: Rsa Key object from the bit size.
@@ -59,6 +60,7 @@ RsaKey::RsaKey(unsigned int inKey_size)
     mpz_class mpz_two = 2;
     mpz_pow_ui(key_size.get_mpz_t(), mpz_two.get_mpz_t(), mpz_exp.get_ui());
     this->genKey();
+    gen_block_size();
 }
 
 mpz_class RsaKey::fast_mod(mpz_class x, mpz_class y) {
@@ -73,6 +75,17 @@ int RsaKey::is_prime(mpz_class n) {
         }
     }
     return true;
+}
+
+
+mpz_class RsaKey::gen_block_size(){
+    mpz_class M(128);
+
+    while(M < n){
+        M *= M;
+        block_size++;
+    }
+    block_size--;
 }
 
 /**

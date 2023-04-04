@@ -16,14 +16,13 @@ class RsaKey
         mpz_class n;
         mpz_class dp;
         mpz_class dq;
+        mpz_class block_size;
         unsigned int bits_Key_size;
         void genKey();
         mpz_class fast_mod(mpz_class, mpz_class);
         int is_prime(mpz_class);
-        mpz_class exp_mod_using_CRT(mpz_class m, mpz_class);
-        mpz_class montgomery_reduce(mpz_class a, mpz_class x, mpz_class inv_r);
-        mpz_class montgomery_multiply(mpz_class a, mpz_class b, mpz_class x, mpz_class inv_r);
         void genPriv();
+        mpz_class gen_block_size();
     public:
         RsaKey();
         RsaKey(unsigned int);

@@ -139,7 +139,7 @@ RsaKey keygen_from_pub_n(mpz_class public_key, mpz_class n){
 
 void cli_engine() {
     printf(">");
-    char cmd[4096];
+    char cmd[4096*256];
     while(fgets(cmd, sizeof(cmd), stdin)){
             int count_blank = 0;
             for (int i=0; i<=strlen(cmd); i++)
@@ -260,6 +260,7 @@ void cli_cmd_parseur(char* cmd){
             std::string currentArg = std::string(cmd_agrv[i]);
             if(currentArg == "-m" || currentArg == "--message")
             {
+                i++;
                 std::string mStr;
                 while(cmd_agrv[i]){
                     mStr += cmd_agrv[i];
@@ -320,11 +321,7 @@ void cli_cmd_parseur(char* cmd){
 }
 
 /*
-
 keygen -s 8
-
 crypt -m test oui
-
 decrypt -m test oui
-
 */ 
