@@ -45,7 +45,7 @@ To launch the CLI mode you just need to use the `-cli`arg :
 ```
 
 To see the help in CLI you just need to write help :
-``bash
+```bash
 >help
 Rev 0.1a | Last update 22 mar 2023
 (c) 2023 Aubertin Emmanuel (aka aTHO_)
